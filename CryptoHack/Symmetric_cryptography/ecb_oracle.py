@@ -19,12 +19,10 @@ flag = ""
 idx2 = 8
 idx = 15
 while True:
+
     payload = 'AA'*idx2
     ciphertext = req(payload)
     last_block = ciphertext[-32:]
-    if last_block=="c1511dbc19f27396337d05c2dc9d182f": #if the last block is empty we start all over again, so we check the previous block
-        idx = 16 #16 because it is empty
-        last_block=ciphertext[-64:-32]
     found = False
     for b in byte_list:
         inp = b + flag + get_padding(idx) * idx #this Is the padding used by AES, by adding one more byte in the plaintext the last byte gets first in the last block, ex:
@@ -50,6 +48,7 @@ while True:
                 exit("Found flag!")
     if not found:
         break
+
 idx2 = 8+16
 idx = 15
 while True:
